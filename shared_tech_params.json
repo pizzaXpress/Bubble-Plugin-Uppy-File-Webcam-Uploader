@@ -14,12 +14,7 @@
         }
     },
     "dependencies": {
+        "plugin_api_version": "3",
         "use_jquery": false
-    },
-    "shared_keys": {
-        "AJZ": {
-            "caption": "bearer_key",
-            "type": "secure"
-        }
     }
 }

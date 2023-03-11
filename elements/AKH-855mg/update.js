@@ -2,12 +2,11 @@ function(instance, properties, context){
 // run initialization function
 if (instance.data.init_complete != true){
     setTimeout(init, 100);
-    instance.data.init_complete = true
+    instance.data.init_complete = true;
 }
 
     
 function init(){
-console.log("instance.canvas", instance.canvas)
     let p = properties;
     let b = properties.bubble;
     let maxFileSize;
@@ -18,10 +17,10 @@ console.log("instance.canvas", instance.canvas)
     instance.data.allFileURLs = [];
     
     if (p.max_file_size > 50){
-        maxFileSize = 5242880
+        maxFileSize = 5242880;
     }
     else{
-        maxFileSize = p.max_file_size * 1048576
+        maxFileSize = p.max_file_size * 1048576;
     }
     let allowedFileTypes = p.allowed_file_types;
     if( allowedFileTypes != null){
@@ -42,27 +41,25 @@ console.log("instance.canvas", instance.canvas)
           hideUploadButton: true,
           hideRetryButton: true,
           hidePauseResumeButton: true,
-          hideCancelButton: true,
-          
-
-
-      }
-    
+          hideCancelButton: true
+    };
     let uppyGeneralSettings = {
         restrictions: {
               maxFileSize: maxFileSize,
               maxNumberOfFiles: maxNumberOfFiles,
               minNumberOfFiles: minNumberOfFiles,
+              allowedFileTypes: allowedFileTypes
           },
         allowMultipleUploads: allowMultipleUploads,
         autoProceed : autoProceed,
-        debug : false,
+        debug : properties.debug_mode,
         onBeforeFileAdded : (file) => {return file},
         onBeforeUpload : (files) => { return files}
         
-    } 
+    };
+  
     let uppy = Uppy.Core(uppyGeneralSettings)
-                   .use(Uppy.Dashboard, uppyDashboardSettings)
+                  .use(Uppy.Dashboard, uppyDashboardSettings);
 
     if (properties.use_webcam === true){
           let webcamModes = [];
@@ -87,25 +84,44 @@ console.log("instance.canvas", instance.canvas)
               onBeforeSnapshot: () => Promise.resolve(),
               countdown: p.webcam_countdown,
               modes: webcamModes,
-              showRecordingLength: p.webcam_show_recording_length,
               locale: {},
-          }
+          };
    
     uppy.use(Uppy.Webcam, webcamSettings);
+    
+    
 }  
     
     
+/*uppy.use(Transloadit, { 
+  params: {
+      auth: {
+          key: 'ecae5c5b53244834838abb7d0c0bb26f'
+      }
+  },
+  waitForEncoding: false,
+  waitForMetadata: false,
+  importFromUploadURLs: false,
+  alwaysRunAssembly: false,
+  signature: null,
+  fields: {},
+  limit: 0
+});
+
+uppy.use(Uppy.Instagram, {
+        target: Uppy.Dashboard,
+  		companionUrl: `https://api2-us-east-1.transloadit.com/companion`
+});
     
-
-
-
+   */
+    
 
     
 instance.data.fileDone = function (err, url){
-      let file = instance.data.file
+      let file = instance.data.file;
 
       if (err != undefined) {
-          console.log('error', err)
+          console.log('error', err);
           return
       }
       if(instance.data.fileCount < instance.data.fileList.length){
@@ -129,11 +145,6 @@ instance.data.fileDone = function (err, url){
 
 
   }
-
-
-    
-
-    
 
 // Convert file to base64 string
 instance.data.fileToBase64 = (file) => {
@@ -160,10 +171,13 @@ uppy.on('cancel-all',() => {
 
 uppy.on('file-added', (file) => {
         instance.data.publishFileStates(file);
-        instance.triggerEvent('file_added')});
+        instance.triggerEvent('file_added')
+});
+  
 uppy.on('file-removed',(file) => {
         instance.data.publishFileStates(file);
-        instance.triggerEvent('file_removed')});
+        instance.triggerEvent('file_removed');
+});
 
 instance.data.sendFile = function (){
 
@@ -177,31 +191,34 @@ instance.data.sendFile = function (){
       let file = instance.data.file;
       instance.data.publishFileStates(file);
       instance.triggerEvent('file_upload_ready');
-      setTimeout(instance.data.fileUpload(file), 150)
+      setTimeout(instance.data.fileUpload(file), 150);
       return
      }
     else {
-
        return  
     }
 }
 instance.data.fileUpload = (file) =>{
   instance.data.fileToBase64(file.data).then(result => {
         let attachToThing = p.attach_to_thing || null;
-         context.uploadContent(file.name, result.split(',')[1], instance.data.fileDone, attachToThing );;
+         context.uploadContent(file.name, result.split(',')[result.split(',').length - 1], instance.data.fileDone, attachToThing );;
       });
 }
     //logging function
 function log(err){
         if (err != undefined){
-            console.log(err)
+            console.log(err);
         }
     }
 instance.data.publishFileStates = (file) => {
+    	let count = 0;
+        let files = uppy.getFiles();
+        if (files.length != undefined || files.length != 0) files.forEach( _=> count++ );
         instance.publishState('current_file_name', file.name);
         instance.publishState('current_file_type', file.type);
         instance.publishState('current_file_extension',file.extension); 
         instance.publishState('current_file_size', file.size);
+    	instance.publishState('number_of_files', count );
 }
       
 instance.data.setUppy = function (file){
@@ -209,16 +226,16 @@ instance.data.setUppy = function (file){
       // Upload in progress. Do something here with the percent complete.
 
       // We use Object.assign({}, obj) to create a copy of `obj`.
-      const updatedFiles = Object.assign({}, uppy.getState().files)
+      const updatedFiles = Object.assign({}, uppy.getState().files);
       // We use Object.assign({}, obj, update) to create an altered copy of `obj`.
 
       const updatedFile = Object.assign({}, updatedFiles[file.id], {
           progress: Object.assign({}, updatedFiles[file.id].progress, {
           uploadComplete : true
         })
-      })
+      });
       updatedFiles[file.id] = updatedFile;
-      uppy.setState({files: updatedFiles})
+      uppy.setState({files: updatedFiles});
       return
     }
 

@@ -6,12 +6,12 @@
         "3": "technical",
         "4": "media"
     },
-    "demo_page": "https://uppyuploader.bubbleapps.io/",
-    "description": "A feature-rich uploader from uppy.io  Includes multi-file picker w/ preview. Record video directly with webcam + mic and save directly to bubble aws.  Limit file type uploads and more.\n\nDEMO:\nhttps://uppyuploader.bubbleapps.io/\n\nPlease note: \nThis plugin has the standard limitations of the bubble platform such as 50mb max file upload and no 'server side' features for handling files. ",
+    "demo_page": "",
+    "description": "",
     "image": "//s3.amazonaws.com/appforest_uf/f1578689176370x522312164594367800/uppy-logo-2019%20%281%29.svg",
     "instructions": "",
-    "license": "open_source",
-    "link": "uppy.io",
-    "name": "Uppy File + Webcam Uploader",
-    "plugin_instructions": "see: uppyuploader.bubbleapps.io for implementation\n1) Place element on page. \n2) create workflow with action 'Uppy Start Upload'\n3) Workflow trigger 'a file upload complete' to process each file that is uploaded"
+    "license": "private",
+    "link": "",
+    "name": "Test-Upload Darkmode",
+    "plugin_instructions": ""
 }

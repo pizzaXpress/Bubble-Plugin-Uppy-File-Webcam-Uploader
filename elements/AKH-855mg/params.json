@@ -169,7 +169,7 @@
         },
         "ALI": {
             "caption": "allowed file types",
-            "doc": "uses file extensions and MIME file types.  This is a text string configuration separated by commas (without spaces)   example:  .jpg,.jpeg,image/*",
+            "doc": "uses file extensions and MIME file types.  This is a text string configuration separated by commas.   example:  .jpg,.jpeg,image/*",
             "editor": "DynamicValue",
             "name": "allowed_file_types",
             "optional": true,
@@ -198,6 +198,21 @@
             "editor": "Checkbox",
             "name": "auto_proceed",
             "rank": 22
+        },
+        "AMZ": {
+            "caption": "debug mode",
+            "default_val": false,
+            "editor": "Checkbox",
+            "name": "debug_mode",
+            "rank": 23
+        },
+        "AMa": {
+            "caption": "test1",
+            "default_val": "123",
+            "editor": "DynamicValue",
+            "name": "test1",
+            "rank": 24,
+            "value": "text"
         }
     },
     "icon": "ion-android-checkbox-blank",
@@ -255,6 +270,14 @@
             "is_list": true,
             "name": "all_file_urls",
             "value": "text"
+        },
+        "ALe": {
+            "caption": "number of files",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\n\n}"
+            },
+            "name": "number_of_files",
+            "value": "number"
         }
     }
 }
